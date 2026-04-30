@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>To-Do Manager</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <div class="container py-4 py-lg-5">
+      <div class="hero card border-0 shadow-sm mb-4">
+        <div class="card-body p-4 p-lg-5">
+          <div class="d-flex flex-column flex-lg-row justify-content-between align-items-start align-items-lg-center gap-3">
+            <div>
+              <span class="app-badge mb-3 d-inline-block">MongoDB • Bootstrap • Task Dashboard</span>
+              <h1 class="display-6 fw-bold mb-2">To-Do Manager</h1>
+              <p class="lead mb-0 text-secondary-soft">
+                Organize tasks by project, priority, deadlines, and status.
+              </p>
+            </div>
+            <div class="text-lg-end">
+              <div class="small text-secondary-soft">Quick overview</div>
+              <div class="d-flex gap-2 mt-2 flex-wrap justify-content-lg-end">
+                <span class="mini-stat">Tasks: <span id="totalCount">0</span></span>
+                <span class="mini-stat">Pending: <span id="pendingCount">0</span></span>
+                <span class="mini-stat">Done: <span id="completedCount">0</span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-12 col-lg-4">
+          <div class="card glass-card border-0 shadow-sm h-100">
+            <div class="card-body p-4">
+              <h2 class="h5 mb-3">Add task</h2>
+
+              <form id="taskForm" class="needs-validation" novalidate>
+                <div class="mb-3">
+                  <label class="form-label">Title</label>
+                  <input type="text" class="form-control" id="title" placeholder="Enter task title" required>
+                  <div class="invalid-feedback">Please enter a task title.</div>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">Project</label>
+                  <input type="text" class="form-control" id="project" placeholder="Project name" required>
+                  <div class="invalid-feedback">Please enter a project name.</div>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">Priority</label>
+                  <select class="form-select" id="priority" required>
+                    <option value="">Choose...</option>
+                    <option value="Low">Low</option>
+                    <option value="Medium">Medium</option>
+                    <option value="High">High</option>
+                  </select>
+                  <div class="invalid-feedback">Please choose a priority.</div>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">Deadline</label>
+                  <input type="date" class="form-control" id="deadline" required>
+                  <div class="invalid-feedback">Please choose a deadline.</div>
+                </div>
+
+                <button type="submit" class="btn btn-accent w-100">Add Task</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-8">
+          <div class="card glass-card border-0 shadow-sm mb-4">
+            <div class="card-body p-4">
+              <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+                <h2 class="h5 mb-0">Filters & sorting</h2>
+                <div class="d-flex gap-2 flex-wrap">
+                  <button class="btn btn-outline-accent btn-sm" onclick="loadTasks('all')">All</button>
+                  <button class="btn btn-outline-accent btn-sm" onclick="loadTasks('pending')">Pending</button>
+                  <button class="btn btn-outline-accent btn-sm" onclick="loadTasks('completed')">Completed</button>
+                  <button class="btn btn-outline-accent btn-sm" onclick="loadTasks('all', 'priority', 'desc')">Priority ↓</button>
+                  <button class="btn btn-outline-accent btn-sm" onclick="loadTasks('all', 'deadline', 'asc')">Deadline ↑</button>
+                  <button class="btn btn-outline-accent btn-sm" onclick="loadStats()">Aggregation</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card glass-card border-0 shadow-sm">
+            <div class="card-body p-4">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 class="h5 mb-0">Tasks</h2>
+                <span class="text-secondary-soft small">Live from MongoDB</span>
+              </div>
+
+              <div id="tasks" class="task-grid"></div>
+
+              <div id="emptyState" class="empty-state d-none">
+                <div class="empty-icon">✓</div>
+                <h3 class="h5 mb-2">No tasks yet</h3>
+                <p class="mb-0 text-secondary-soft">Create your first task using the form on the left.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card glass-card border-0 shadow-sm mt-4">
+            <div class="card-body p-4">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 class="h5 mb-0">Aggregation results</h2>
+                <span class="text-secondary-soft small">Grouped by project</span>
+              </div>
+
+              <div id="stats" class="task-grid"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

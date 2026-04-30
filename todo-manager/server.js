@@ -74,7 +74,10 @@ app.get('/tasks', async (req, res) => {
       sort.deadline = 1;
     }
 
-    const tasks = await tasksCollection.find(query).sort(sort).toArray();
+    const tasks = await tasksCollection
+        .find(query)
+        .sort(sort)
+        .toArray();
     res.json(tasks);
   } catch (err) {
     res.status(500).json({ error: 'Failed to load tasks' });
